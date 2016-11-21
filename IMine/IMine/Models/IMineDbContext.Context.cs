@@ -26,5 +26,7 @@ namespace IMine.Models
         }
     
         public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Album> Albums { get; set; }
+        public virtual DbSet<HinhAnh> HinhAnhs { get; set; }
     }
 }

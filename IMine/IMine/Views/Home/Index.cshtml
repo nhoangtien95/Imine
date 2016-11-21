@@ -8,7 +8,7 @@
 @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @class = "upLoad", enctype = "multipart/form-data" }))
 {
     <img src="~/Content/images/logo.png" class="imgUpload" onclick="OpenFiledialog()" />
-    <input name="files" class="mainSubmit" type="file" onchange="UploadFile()" multiple />
+    <input name="files" class="mainSubmit" type="file" style="display:none" onchange="UploadFile()" multiple />
 }
 <script>
 
@@ -23,3 +23,7 @@
        //document.forms['upLoad'].submit();
    }
 </script>
+@foreach (var item in ViewBag.img)
+{
+<img src="~/Photos/@item" style="max-height:300px; max-width:200px" />
+}

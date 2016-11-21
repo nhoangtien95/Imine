@@ -181,6 +181,12 @@
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Album.cs">
+      <DependentUpon>IMineDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HinhAnh.cs">
+      <DependentUpon>IMineDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IMineDbContext.Context.cs">
       <AutoGen>True</AutoGen>
@@ -290,6 +296,7 @@
     <Folder Include="Content\fonts\" />
     <Folder Include="Content\script\" />
     <Folder Include="Content\styles\" />
+    <Folder Include="Photos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
