@@ -1,0 +1,106 @@
+﻿@model IMine.Models.AccountModel
+@{
+    Layout = null;
+    List<SelectListItem> list = new List<SelectListItem>();
+    SelectListItem gen1 = new SelectListItem() { Value = "1", Text = "Nam" };
+    list.Add(gen1);
+    SelectListItem gen2 = new SelectListItem() { Value = "2", Text = "Nữ" };
+    list.Add(gen2);
+}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,800italic,400,700,800">
+<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
+<link type="text/css" rel="stylesheet" href="/Content/styles/font-awesome.min.css">
+<link type="text/css" rel="stylesheet" href="/Content/styles/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="/Content/styles/animate.css">
+<link type="text/css" rel="stylesheet" href="/Content/styles/main.css">
+<link type="text/css" rel="stylesheet" href="/Content/styles/style-responsive.css">
+
+
+<div class="col-md-9" style="margin-left:175px; margin-top:80px">
+    <div id="generalTabContent" class="tab-content">
+        <div id="tab-edit" class="tab-pane fade in active">
+            <div class="form-horizontal">
+                @using (Html.BeginForm("Register", "Login", FormMethod.Post))
+                {
+
+                    <h3>Thông Tin Tài Khoản</h3>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Email</label>
+
+                                        <div class="col-sm-9 controls">
+                                            <div class="row">
+                                                <div class="col-xs-9">@Html.TextBoxFor(x => x.email, new { @class= "form-control", @type = "email", @placeholder = "email@abc.com" })</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Tài khoản</label>
+
+                                        <div class="col-sm-9 controls">
+                                            <div class="row">
+                                                <div class="col-xs-9">@Html.TextBoxFor(x => x.username, new { @class = "form-control", @type = "text", @placeholder = "Tài khoản" })</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Mật khẩu</label>
+
+                                        <div class="col-sm-9 controls">
+                                            <div class="row">
+                                                <div class="col-xs-4">@Html.TextBoxFor(x => x.password, new { @class = "form-control", @type = "password", @placeholder = "Mật khẩu" })</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Xác nhân mật khẩu</label>
+
+                                        <div class="col-sm-9 controls">
+                                            <div class="row">
+                                                <div class="col-xs-4">@Html.TextBoxFor(x => x.passwordComfirm, new { @class = "form-control", @type = "password", @placeholder = "Xác nhận mật khẩu" })</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <h3>Thông Tin Người Dùng</h3>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Họ tên</label>
+
+                                        <div class="col-sm-9 controls">
+                                            <div class="row">
+                                                <div class="col-xs-9">@Html.TextBoxFor(x => x.name, new { @class = "form-control", @type = "text", @placeholder = "Họ tên" })</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Giới tính</label>
+
+                                        <div class="col-sm-9 controls">
+                                            <div class="row">
+                                                <div class="col-xs-9">
+                                                            @Html.DropDownListFor(x => x.gen, list)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Ngày sinh</label>
+
+                                        <div class="col-sm-9 controls">
+                                            <div class="row">
+                                                <div class="col-xs-4"><input id="datepicker-normal" type="text" class="form-control" /></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+
+                                    <button type="submit" class="btn btn-blue btn-block">Đăng Ký</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

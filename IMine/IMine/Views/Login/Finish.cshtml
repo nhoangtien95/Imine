@@ -1,0 +1,58 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Finish</title>
+    <meta http-equiv="Refresh" content="5; url=@Url.Content("Welcome")" />
+
+    <script type="text/javascript">
+
+        function countdown()
+        {
+            seconds = document.getElementById("countdown").innerHTML;
+            if (seconds > 0)
+            {
+                document.getElementById("countdown").innerHTML = seconds - 1;
+                setTimeout("countdown()", 1000);
+            }
+        }
+
+        setTimeout("countdown()", 1000);
+
+    </script>
+
+</head>
+
+<body>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,800italic,400,700,800">
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
+    <link type="text/css" rel="stylesheet" href="/Content/styles/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/Content/styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="/Content/styles/animate.css">
+    <link type="text/css" rel="stylesheet" href="/Content/styles/main.css">
+    <link type="text/css" rel="stylesheet" href="/Content/styles/style-responsive.css">
+
+
+    <div class="col-md-9" style="margin-left:175px; margin-top:80px">
+        <div id="generalTabContent" class="tab-content">
+            <div id="tab-edit" class="tab-pane fade in active">
+                <h3 style="text-align:center">Đăng Ký Thành Công</h3>
+                <div style="text-align:center">
+                    Chúc mừng bạn đã đăng ký thành công. Bạn có thể sử dụng ngay dịch vụ của chúng tôi.<br />
+                    Vui lòng chờ trong <span id="countdown">5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
