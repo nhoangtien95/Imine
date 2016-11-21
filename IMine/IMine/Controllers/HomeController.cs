@@ -13,6 +13,12 @@ namespace IMine.Controllers
             return View();
         }
 
+
+        [HttpPost]
+        public ActionResult Upload(IEnumerable<HttpPostedFileBase> files)
+        {
+            return RedirectToAction("Index");
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -25,6 +31,5 @@ namespace IMine.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
-    }
+        }    }
 }
