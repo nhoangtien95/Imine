@@ -25,6 +25,20 @@
     <link type="text/css" rel="stylesheet" href="/Content/styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="/Content/styles/pace.css">
     <link type="text/css" rel="stylesheet" href="/Content/styles/jquery.news-ticker.css">
+
+
+    <script>
+
+        function OpenFiledialog() {
+            $('.mainSubmit').trigger('click');
+        }
+
+        function UploadFile() {
+            $('.upLoad').submit();
+        }
+
+    </script>
+
 </head>
 <body>
     <div>
@@ -48,19 +62,19 @@
                     <div class="news-update-box hidden-xs">
                         <span class="text-uppercase mrm pull-left text-white">News:</span>
                         <ul id="news-update" class="ticker list-unstyled">
-                            <li>Welcome to IMine - Your Photo Album Online</li>                            
+                            <li>Welcome to IMine - Your Photo Album Online</li>
                         </ul>
                     </div>
-                    <ul class="nav navbar navbar-top-links navbar-right mbn">                       
+                    <ul class="nav navbar navbar-top-links navbar-right mbn">
                         <li class="dropdown topbar-user">
                             <a data-hover="dropdown" href="#" class="dropdown-toggle"><img src="images/avatar/48.jpg" alt="" class="img-responsive img-circle" />&nbsp;<span class="hidden-xs">Robert John</span>&nbsp;<span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-user pull-right">
-                                <li><a href="#"><i class="fa fa-user"></i>My Profile</a></li>                           
-                                
+                                <li><a href="#"><i class="fa fa-user"></i>My Profile</a></li>
+
                                 <li class="divider"></li>
                                 <li><a href="Login.html"><i class="fa fa-key"></i>Log Out</a></li>
                             </ul>
-                        </li>                        
+                        </li>
                     </ul>
                 </div>
             </nav>
