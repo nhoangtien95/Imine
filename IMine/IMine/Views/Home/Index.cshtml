@@ -7,16 +7,17 @@
 <head>
 
     <style>
-        .test {
+        .imgUpload {
+            max-height: 60px;
+            max-width: 50px;
             box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);
             border-radius: 50%;
         }
 
-        .test:active{
-            opacity:0.5;
-            box-shadow: none;
-        }
-
+            .imgUpload:active {
+                opacity: 0.5;
+                box-shadow: none;
+            }
     </style>
 
 
@@ -27,12 +28,15 @@
 
 @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @class = "upLoad", enctype = "multipart/form-data" }))
 {
-    <img style="position:absolute; bottom:20px; right:20px " src="~/Content/images/logo.png" class="imgUpload" onclick="OpenFiledialog()" />
+    <img style="position:absolute; bottom:50px; right:50px " src="~/Content/images/button.png" class="imgUpload" onclick="OpenFiledialog()" />
     <input name="files" class="mainSubmit" type="file" style="display:none" onchange="UploadFile()" multiple />
 }
 @foreach (var item in ViewBag.img)
 {
-    <img src="~/Photos/@item" style="max-height:300px; max-width:200px" />
+    <div class="col-sm-6 col-md-3" style="width:160px;">
+            <img style="height:160px; width:126px; max-height:160px; max-width:126px; overflow:hidden; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Photos/@item" />           
+    </div>
+
+
 }
 
-    <img class="test" src="~/Content/images/button.png" style="max-height:300px; max-width:200px" />

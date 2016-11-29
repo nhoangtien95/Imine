@@ -13,8 +13,16 @@ namespace IMine.Controllers
         private WebAnhDBEntities db = new WebAnhDBEntities();
         public ActionResult Index()
         {
-            ViewBag.img = db.HinhAnhs.Select(x => x.TenHinh).ToList();
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                var user = Session["user"] as Account;
+                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID).Select(x => x.TenHinh).ToList();
+                return View();
+            }
         }
 
 
@@ -22,7 +30,8 @@ namespace IMine.Controllers
         public ActionResult Upload(IEnumerable<HttpPostedFileBase> files)
         {
             var ktHinh = new[] { ".png", ".jpg", "jpeg"};
-            foreach(var item in files)
+            var user = Session["user"] as Account;
+            foreach (var item in files)
             {
                 var fileName = Path.GetFileName(item.FileName);
                 var ext = Path.GetExtension(item.FileName);
@@ -30,11 +39,12 @@ namespace IMine.Controllers
                 if (ktHinh.Contains(ext))
                 {
                     string name = Path.GetFileNameWithoutExtension(fileName);
-                    string userImage = name + "_" + ext;
+                    string userImage = name + ext;
 
                     HinhAnh img = new HinhAnh()
                     {
-                        TenHinh = name + "_" + ext
+                        TenHinh = name + ext,
+                        UserID = user.ID 
                     };
                     db.HinhAnhs.Add(img);
                     db.SaveChanges();
@@ -42,6 +52,8 @@ namespace IMine.Controllers
                     item.SaveAs(Server.MapPath("~/Photos/" + userImage));
                 }
             }
+
+
 
                 return RedirectToAction("Index");
         }

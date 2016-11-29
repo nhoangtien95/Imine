@@ -22,13 +22,13 @@ namespace IMine.Controllers
         [Route("Welcome")]
         public ActionResult Index()
         {
-            return View();
+            return View("Login");
         }
         #endregion
 
 
 
-        #region Index
+        #region DangNhap
 
         /// <summary>
         ///     Kiểm tra đăng nhập
@@ -36,7 +36,7 @@ namespace IMine.Controllers
         /// <param name="model">Thông tin user + password người dùng nhập vào</param>
         /// <returns>Kết quả đăng nhập</returns>
         [HttpPost]
-        public ActionResult Index(AccountModel model)
+        public ActionResult Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
@@ -52,7 +52,8 @@ namespace IMine.Controllers
                     {
                         if (user.Password.Equals(model.password))
                         {
-                            return RedirectToAction("Index", "Home");
+                            Session["user"] = new Account { ID = user.ID, Username = model.username, HoTen = user.HoTen };
+                            return RedirectToAction("Index", "Home", Session["user"]);
                         }
                         else ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không đúng.");
                     }

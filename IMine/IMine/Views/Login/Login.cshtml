@@ -103,7 +103,7 @@
                                 <h2 style="text-align:center">Đăng Nhập</h2>
                             </div>
                         </div>
-                        @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+                        @using (Html.BeginForm("Login", "Login", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
@@ -137,10 +137,8 @@
                                             &nbsp;
                                         </div>
                                         <div class="col-lg-9">
-                                            <a class="btn btn-default back-btn">@Html.ActionLink("Đăng Ký","Register","Login")</a>&nbsp;&nbsp;
-                                            <button type="submit" class="btn btn-default sign-btn">
-                                                Đăng Nhập
-                                            </button>
+                                            <a class="btn btn-default back-btn">@Html.ActionLink("Đăng Ký","Register","Login")</a>
+                                            <input type="submit" class="btn btn-default sign-btn" value="Đăng Nhập" />                                                
                                         </div>
                                     </div>
                                 </div>
