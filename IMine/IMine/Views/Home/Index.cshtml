@@ -1,4 +1,4 @@
-﻿
+﻿@model IMine.Models.FolderModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,123 +20,70 @@
             }
     </style>
 
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
-  $( function() {
-    var dialog, form,
-              
-      emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-      name = $( "#name" ),
-      email = $( "#email" ),
-      password = $( "#password" ),
-      allFields = $( [] ).add( name ).add( email ).add( password ),
-      tips = $( ".validateTips" );
 
-    function updateTips( t ) {
-      tips
-        .text( t )
-        .addClass( "ui-state-highlight" );
-      setTimeout(function() {
-        tips.removeClass( "ui-state-highlight", 1500 );
-      }, 500 );
-    }
 
-    function checkLength( o, n, min, max ) {
-      if ( o.val().length > max || o.val().length < min ) {
-        o.addClass( "ui-state-error" );
-        updateTips( "Length of " + n + " must be between " +
-          min + " and " + max + "." );
-        return false;
-      } else {
-        return true;
-      }
-    }
-
-    function checkRegexp( o, regexp, n ) {
-      if ( !( regexp.test( o.val() ) ) ) {
-        o.addClass( "ui-state-error" );
-        updateTips( n );
-        return false;
-      } else {
-        return true;
-      }
-    }
-
-    function addUser() {
-      var valid = true;
-      allFields.removeClass( "ui-state-error" );
-
-      valid = valid && checkLength( name, "username", 3, 16 );
-
-      valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
-     
-      if ( valid ) {
-        $( "#users tbody" ).append( "<tr>" +
-          "<td>" + name.val() + "</td>" +
-          "<td>" + email.val() + "</td>" +
-          "<td>" + password.val() + "</td>" +
-        "</tr>" );
-        dialog.dialog( "close" );
-      }
-      return valid;
-    }
-
-    dialog = $( "#dialog-form" ).dialog({
-      autoOpen: false,
-      height: 150,
-      width: 350,
-      modal: true,
-      buttons: {
-          "Tạo mới": addUser,
-          Hủy: function () {
-          dialog.dialog( "close" );
+        function myFunction() {
+            $("#dialog-message").dialog("open");
         }
-      },
-      close: function() {
-        form[ 0 ].reset();
-        allFields.removeClass( "ui-state-error" );
-      }
-    });
-
-    form = dialog.find( "form" ).on( "submit", function( event ) {
-      event.preventDefault();
-      addUser();
-    });
-
-    $( "#create-folder" ).button().on( "click", function() {
-      dialog.dialog( "open" );
-    });
-  } );
     </script>
 
 </head>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Thư mục mới</h4>
+            </div>
 
-<div id="dialog-form" title="Tạo Thư Mục Mới" style="height:40px;">
-    <form>
-        <fieldset>
-            <label for="name">Name</label>
-            <input type="text" name="Tên Thư Mục" id="name" value="" class="text ui-widget-content ui-corner-all">
+            @using (Html.BeginForm("CreateFolder", "Home", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+                    <fieldset>
+                        <label for="name">Tên Thư Mục</label>
+                        @Html.TextBoxFor(model => model.Fname, null, new { id = "name", @class = "text ui-widget-content ui-corner-all" })
+                       
+                    </fieldset>
 
-            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-        </fieldset>
-    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal">Tạo mới</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                </div>
+            }
+        </div>
+    </div>
 </div>
 
-<button id="create-folder">Create new user</button>
+<button type="button" id="create-folder" data-toggle="modal" data-target="#myModal">Create new user</button> <br /><br /><br />
+
+
 
 
 @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @class = "upLoad", enctype = "multipart/form-data" }))
 {
     <img style="position:absolute; bottom:50px; right:50px " src="~/Content/images/button.png" class="imgUpload" onclick="OpenFiledialog()" />
-    <input name="files" class="mainSubmit" type="file" style="display:none" onchange="UploadFile()" multiple />
+        <input name="files" class="mainSubmit" type="file" style="display:none" onchange="UploadFile()" multiple />
 }
+
+@foreach (var folder in ViewBag.folder)
+{
+    <div class="col-sm-6 col-md-3" style="width:160px;">
+        <img style="height:160px; width:126px; max-height:160px; max-width:126px; overflow:hidden; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Content/images/folder.jpg" />
+    </div>
+}
+
 @foreach (var item in ViewBag.img)
 {
     <div class="col-sm-6 col-md-3" style="width:160px;">
-            <img style="height:160px; width:126px; max-height:160px; max-width:126px; overflow:hidden; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Photos/@item" />           
+        <img style="height:160px; width:126px; max-height:160px; max-width:126px; overflow:hidden; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Photos/@item" />
     </div>
-
-
 }
 

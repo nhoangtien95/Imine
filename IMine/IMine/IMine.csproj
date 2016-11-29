@@ -184,6 +184,7 @@
     <Compile Include="Models\Album.cs">
       <DependentUpon>IMineDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FolderModel.cs" />
     <Compile Include="Models\HinhAnh.cs">
       <DependentUpon>IMineDbContext.tt</DependentUpon>
     </Compile>

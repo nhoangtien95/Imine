@@ -20,11 +20,28 @@ namespace IMine.Controllers
             else
             {
                 var user = Session["user"] as Account;
+
+                ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID).Select(x => x.TenAlbum).ToList();
                 ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID).Select(x => x.TenHinh).ToList();
                 return View();
             }
         }
 
+        public ActionResult FolderLoad()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                var user = Session["user"] as Account;
+
+                ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID).Select(x => x.TenAlbum).ToList();
+                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID).Select(x => x.TenHinh).ToList();
+                return View();
+            }
+        }
 
         [HttpPost]
         public ActionResult Upload(IEnumerable<HttpPostedFileBase> files)
@@ -57,10 +74,19 @@ namespace IMine.Controllers
 
                 return RedirectToAction("Index");
         }
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
 
+        [HttpPost]
+        public ActionResult CreateFolder(FolderModel model)
+        {
+            var user = Session["user"] as Account;
+            Album ab = new Album()
+            {
+                TenAlbum = model.Fname,
+                UserID = user.ID
+            };
+
+            db.Albums.Add(ab);
+            db.SaveChanges();
             return View();
         }
 
