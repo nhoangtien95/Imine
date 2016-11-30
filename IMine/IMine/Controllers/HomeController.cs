@@ -87,7 +87,7 @@ namespace IMine.Controllers
 
             db.Albums.Add(ab);
             db.SaveChanges();
-            return View();
+            return RedirectToAction("Index");
         }
 
         public ActionResult Contact()
