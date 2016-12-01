@@ -75,7 +75,7 @@ namespace IMine.Controllers
         }
         #endregion
 
-        #region Register
+        #region Register-Post
 
         /// <summary> 
         ///     Thông tin đăng ký
@@ -108,7 +108,7 @@ namespace IMine.Controllers
         /// <summary>
         ///     Giao diện đăng ký mới
         /// </summary>        /// 
-        /// <returns></returns>
+        /// <returns>Chuyển trang đăng nhập</returns>
         /// 
         [Route("hoan-tat-dang-ky")]
         public ActionResult Finish()

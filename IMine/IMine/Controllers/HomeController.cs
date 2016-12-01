@@ -11,6 +11,13 @@ namespace IMine.Controllers
     public class HomeController : Controller
     {
         private WebAnhDBEntities db = new WebAnhDBEntities();
+
+        #region Index
+
+        /// <summary>
+        ///     Trang chủ của IMine
+        /// </summary>
+        /// <returns>Thông tin hình ảnh của người dùng</returns>
         public ActionResult Index()
         {
             if (Session["user"] == null)
@@ -20,13 +27,22 @@ namespace IMine.Controllers
             else
             {
                 var user = Session["user"] as Account;
-
-                ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID).Select(x => x.TenAlbum).ToList();
-                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID).Select(x => x.TenHinh).ToList();
+                
+                ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID).OrderByDescending(x => x.AlbumID).Select(x => x.TenAlbum).ToList();
+                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID).OrderByDescending(x => x.HinhID).Select(x => x.TenHinh).ToList();
                 return View();
             }
         }
+        #endregion
 
+        #region FolderLoad
+
+        /// <summary>
+        ///     Hiển thị thông tin folder
+        /// </summary>
+        /// <param name="id">Compare product id with resource</param>
+        /// <param name="quantity">Get product quantity</param>
+        /// <returns>Thông tin folder của người dùng</returns>
         public ActionResult FolderLoad()
         {
             if (Session["user"] == null)
@@ -42,7 +58,16 @@ namespace IMine.Controllers
                 return View();
             }
         }
+        #endregion
 
+
+        #region Upload
+
+        /// <summary>
+        ///     Upload hình ảnh
+        /// </summary>
+        /// <param name="files">Hình ảnh upload</param>
+        /// <returns>Lưu vào db</returns>
         [HttpPost]
         public ActionResult Upload(IEnumerable<HttpPostedFileBase> files)
         {
@@ -74,7 +99,15 @@ namespace IMine.Controllers
 
                 return RedirectToAction("Index");
         }
+        #endregion
 
+        #region CreateFolder
+
+        /// <summary>
+        ///     Tạo folder mới
+        /// </summary>
+        /// <param name="model">Thông tin folder( tên, chú thích)</param>
+        /// <returns>Folder mới + tên</returns>
         [HttpPost]
         public ActionResult CreateFolder(FolderModel model)
         {
@@ -89,6 +122,8 @@ namespace IMine.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        #endregion
+
 
         public ActionResult Contact()
         {

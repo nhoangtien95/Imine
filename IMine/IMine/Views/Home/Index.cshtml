@@ -18,6 +18,22 @@
                 opacity: 0.5;
                 box-shadow: none;
             }
+
+        .folder:hover {
+            cursor: pointer;
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);
+        }
+
+        .I-image {
+            -webkit-transition: margin 0.2s ease-out;
+            -moz-transition: margin 0.2s ease-out;
+            -o-transition: margin 0.2s ease-out;
+        }
+
+            .I-image:hover {
+                cursor: pointer;
+                margin-top: -8px;
+            }
     </style>
 
 
@@ -43,21 +59,21 @@
 
             @using (Html.BeginForm("CreateFolder", "Home", FormMethod.Post))
             {
-                <div class="modal-body">
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
-                    <fieldset>
-                        <label>Tên Thư Mục</label>
-                        @Html.TextBoxFor(model => model.Fname, null, new { @class = "text ui-widget-content ui-corner-all" })
-                        <label>Chú Thích</label>
-                        @Html.TextBoxFor(model => model.ChuThich, null, new { @class = "text ui-widget-content ui-corner-all" })
-                    </fieldset>
+            <div class="modal-body">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+                <fieldset>
+                    <label>Tên Thư Mục</label>
+                    @Html.TextBoxFor(model => model.Fname, null, new { @class = "text ui-widget-content ui-corner-all" })
+                    <label>Chú Thích</label>
+                    @Html.TextBoxFor(model => model.ChuThich, null, new { @class = "text ui-widget-content ui-corner-all" })
+                </fieldset>
 
-                </div>
-                <div class="modal-footer">
-                    <input id="btnSubmit" class="btn btn-default" type="submit" value="Submit" />
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <input id="btnSubmit" class="btn btn-default" type="submit" value="Submit" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+            </div>
             }
         </div>
     </div>
@@ -79,12 +95,10 @@
     @foreach (var folder in ViewBag.folder)
     {
         <div class="col-sm-6 col-md-3" style="width:160px;">
-            <div class="input-icon">
+            <div class="input-icon folder">
                 <i class="fa fa-file"></i>
                 <h3 style="padding-left:30px; overflow:hidden;" class="form-control">@folder</h3>
-                @*<input id="inputFirstName" type="text" placeholder="First Name" class="form-control">*@
             </div>
-            @*<img style="height:160px; width:126px; max-height:160px; max-width:126px; overflow:hidden; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Content/images/folder.jpg" />*@
         </div>
     }
 </div>
@@ -96,7 +110,7 @@
     @foreach (var item in ViewBag.img)
     {
         <div class="col-sm-6 col-md-3" style="width:160px;">
-            <img style="height:160px; width:126px; max-height:160px; max-width:126px; overflow:hidden; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Photos/@item" />
+            <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Photos/@item" />
         </div>
     }
 </div>
