@@ -26,6 +26,7 @@
           <Property Name="TenAlbum" Type="nvarchar" MaxLength="50" />
           <Property Name="ChuThich" Type="nvarchar" MaxLength="200" />
           <Property Name="UserID" Type="int" />
+          <Property Name="AlbumCha" Type="int" />
         </EntityType>
         <EntityType Name="HinhAnh">
           <Key>
@@ -35,6 +36,7 @@
           <Property Name="TenHinh" Type="nvarchar" MaxLength="200" />
           <Property Name="ChuThich" Type="nvarchar" MaxLength="100" />
           <Property Name="UserID" Type="int" />
+          <Property Name="AlbumID" Type="int" />
         </EntityType>
         <EntityContainer Name="WebAnhDBModelStoreContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
@@ -71,6 +73,7 @@
           <Property Name="TenAlbum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ChuThich" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UserID" Type="Int32" />
+          <Property Name="AlbumCha" Type="Int32" />
         </EntityType>
         <EntityType Name="HinhAnh">
           <Key>
@@ -80,6 +83,7 @@
           <Property Name="TenHinh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ChuThich" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="UserID" Type="Int32" />
+          <Property Name="AlbumID" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -104,6 +108,7 @@
           <EntitySetMapping Name="Albums">
             <EntityTypeMapping TypeName="WebAnhDBModel.Album">
               <MappingFragment StoreEntitySet="Album">
+                <ScalarProperty Name="AlbumCha" ColumnName="AlbumCha" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ChuThich" ColumnName="ChuThich" />
                 <ScalarProperty Name="TenAlbum" ColumnName="TenAlbum" />
@@ -114,6 +119,7 @@
           <EntitySetMapping Name="HinhAnhs">
             <EntityTypeMapping TypeName="WebAnhDBModel.HinhAnh">
               <MappingFragment StoreEntitySet="HinhAnh">
+                <ScalarProperty Name="AlbumID" ColumnName="AlbumID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ChuThich" ColumnName="ChuThich" />
                 <ScalarProperty Name="TenHinh" ColumnName="TenHinh" />

@@ -20,6 +20,7 @@ namespace IMine.Controllers
         /// <returns></returns>
         /// 
         [Route("Welcome")]
+        [Route("")]
         public ActionResult Index()
         {
             return View("Login");

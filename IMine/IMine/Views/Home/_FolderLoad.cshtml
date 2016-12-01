@@ -1,13 +1,12 @@
 ﻿@model IMine.Models.FolderModel
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
     var f_id = ViewBag.F_id as List<IMine.Models.Album>;
     var folder = ViewBag.folder as List<IMine.Models.Album>;
 }
 
 <head>
-    
+
     <style>
         .imgUpload {
             max-height: 60px;
@@ -96,7 +95,7 @@
                         <input id="btnSubmit" class="btn btn-default" type="submit" value="Submit" />
                         <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
                     </div>
-            }
+                }
             </div>
         </div>
     </div>

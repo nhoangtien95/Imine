@@ -18,7 +18,9 @@ namespace IMine.Controllers
         ///     Trang chủ của IMine
         /// </summary>
         /// <returns>Thông tin hình ảnh của người dùng</returns>
-        public ActionResult Index()
+        /// 
+        
+        public ActionResult Index(int? F_id = null)
         {
             if (Session["user"] == null)
             {
@@ -27,9 +29,14 @@ namespace IMine.Controllers
             else
             {
                 var user = Session["user"] as Account;
-                
-                ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID).OrderByDescending(x => x.AlbumID).Select(x => x.TenAlbum).ToList();
-                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID).OrderByDescending(x => x.HinhID).Select(x => x.TenHinh).ToList();
+
+                ViewBag.F_id = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).Select(x => x.AlbumID).Take(1).ToList();
+                ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).ToList();
+                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).Select(x => x.TenHinh).ToList();
+
+                //ViewBag.F_id = db.Albums.Where(x => x.UserID == user.ID).Select(x => x.AlbumCha).Take(1).ToList();
+                //ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID).OrderByDescending(x => x.AlbumID).Select(x => x.TenAlbum).ToList();
+                //ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID).OrderByDescending(x => x.HinhID).Select(x => x.TenHinh).ToList();
                 return View();
             }
         }
@@ -43,19 +50,23 @@ namespace IMine.Controllers
         /// <param name="id">Compare product id with resource</param>
         /// <param name="quantity">Get product quantity</param>
         /// <returns>Thông tin folder của người dùng</returns>
-        public ActionResult FolderLoad()
+        /// 
+        [Route("Folder")]
+        [HttpPost]
+        public PartialViewResult _FolderLoad(int F_id)
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("Index", "Login");
+                return PartialView("Index", "Login");
             }
             else
             {
                 var user = Session["user"] as Account;
 
-                ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID).Select(x => x.TenAlbum).ToList();
-                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID).Select(x => x.TenHinh).ToList();
-                return View();
+                ViewBag.F_id = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).Select(x => x.AlbumID).Take(1).ToList();
+                ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).ToList();
+                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).Select(x => x.TenHinh).ToList();
+                return PartialView();
             }
         }
         #endregion
@@ -69,7 +80,7 @@ namespace IMine.Controllers
         /// <param name="files">Hình ảnh upload</param>
         /// <returns>Lưu vào db</returns>
         [HttpPost]
-        public ActionResult Upload(IEnumerable<HttpPostedFileBase> files)
+        public ActionResult Upload(IEnumerable<HttpPostedFileBase> files, int? F_id)
         {
             var ktHinh = new[] { ".png", ".jpg", "jpeg"};
             var user = Session["user"] as Account;
@@ -86,7 +97,8 @@ namespace IMine.Controllers
                     HinhAnh img = new HinhAnh()
                     {
                         TenHinh = name + ext,
-                        UserID = user.ID 
+                        UserID = user.ID,
+                        AlbumID = F_id 
                     };
                     db.HinhAnhs.Add(img);
                     db.SaveChanges();
@@ -94,9 +106,7 @@ namespace IMine.Controllers
                     item.SaveAs(Server.MapPath("~/Photos/" + userImage));
                 }
             }
-
-
-
+            
                 return RedirectToAction("Index");
         }
         #endregion
@@ -130,5 +140,6 @@ namespace IMine.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }    }
+        }
+    }
 }

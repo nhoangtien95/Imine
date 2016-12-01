@@ -18,5 +18,6 @@ namespace IMine.Models
         public string TenAlbum { get; set; }
         public string ChuThich { get; set; }
         public Nullable<int> UserID { get; set; }
+        public Nullable<int> AlbumCha { get; set; }
     }
 }
