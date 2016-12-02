@@ -295,6 +295,7 @@
     <Content Include="Views\Login\Finish.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_FolderLoad.cshtml" />
+    <Content Include="Views\Home\abc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

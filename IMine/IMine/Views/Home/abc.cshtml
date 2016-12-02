@@ -1,7 +1,7 @@
 ﻿@model IMine.Models.FolderModel
 @{
     ViewBag.Title = "Index";
-    var f_id = ViewBag.F_id as List<IMine.Models.Album>;
+    var f_id = ViewBag.F_id ;
     var folder = ViewBag.folder as List<IMine.Models.Album>;
 }
 
@@ -91,6 +91,7 @@
 
                     </div>
                     <div class="modal-footer">
+                        <input type="text" style="display:none" id="F_id" name="F_id" value=@f_id />
                         <input id="btnSubmit" class="btn btn-default" type="submit" value="Submit" />
                         <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
                     </div>
@@ -107,7 +108,7 @@
     @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @class = "upLoad", enctype = "multipart/form-data" }))
     {
         <img style="position:absolute; bottom:50px; right:50px " src="~/Content/images/button.png" class="imgUpload" onclick="OpenFiledialog()" />
-        <input type="hidden" id="fid" value="@f_id" />
+        <input type="text" style="display:none" id="F_id" name="F_id" value=@f_id />
         <input name="files" class="mainSubmit" type="file" style="display:none" onchange="UploadFile()" multiple />
     }
 

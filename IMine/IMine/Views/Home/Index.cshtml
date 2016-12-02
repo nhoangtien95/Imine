@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var f_id = ViewBag.F_id as List<IMine.Models.Album>;
+    var f_id = ViewBag.F_id ;
     var folder = ViewBag.folder as List<IMine.Models.Album>;
 }
 
@@ -48,18 +48,18 @@
             $("#dialog-message").dialog("open");
         }
 
+
         $(function () {
 
             $('.folder').click(function () {
                 var fid = $(this).data('folder');
                 alert(fid);
                 $.ajax({
-                    url: '@Url.Action("_FolderLoad", "Home")',
-                    data: { 'F_id': fid },
+                    url: "/Folder/" + fid,
                     type: 'POST',
-                    success: function (response) {
+                    success: function () {
                         alert("success");
-                        $('.F_load').load('@Url.Content("Folder")');
+                        $('#F_load').load('@Url.Content("abc")');
                     }
                 });
             });
@@ -70,7 +70,7 @@
 
 </head>
 
-<div class="F_load">
+<div id="F_load">
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -109,7 +109,7 @@
     @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @class = "upLoad", enctype = "multipart/form-data" }))
     {
         <img style="position:absolute; bottom:50px; right:50px " src="~/Content/images/button.png" class="imgUpload" onclick="OpenFiledialog()" />
-        <input type="hidden" id="fid" value="@f_id" />
+        <input type="hidden" id="F_id" name="F_id"  value=@f_id />
         <input name="files" class="mainSubmit" type="file" style="display:none" onchange="UploadFile()" multiple />
     }
 

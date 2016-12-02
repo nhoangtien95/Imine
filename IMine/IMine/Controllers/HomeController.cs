@@ -19,7 +19,7 @@ namespace IMine.Controllers
         /// </summary>
         /// <returns>Thông tin hình ảnh của người dùng</returns>
         /// 
-        
+        [Route("IMine")]
         public ActionResult Index(int? F_id = null)
         {
             if (Session["user"] == null)
@@ -30,13 +30,10 @@ namespace IMine.Controllers
             {
                 var user = Session["user"] as Account;
 
-                ViewBag.F_id = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).Select(x => x.AlbumID).Take(1).ToList();
+                ViewBag.F_id = F_id;
                 ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).ToList();
                 ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).Select(x => x.TenHinh).ToList();
-
-                //ViewBag.F_id = db.Albums.Where(x => x.UserID == user.ID).Select(x => x.AlbumCha).Take(1).ToList();
-                //ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID).OrderByDescending(x => x.AlbumID).Select(x => x.TenAlbum).ToList();
-                //ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID).OrderByDescending(x => x.HinhID).Select(x => x.TenHinh).ToList();
+                                
                 return View();
             }
         }
@@ -51,26 +48,32 @@ namespace IMine.Controllers
         /// <param name="quantity">Get product quantity</param>
         /// <returns>Thông tin folder của người dùng</returns>
         /// 
-        [Route("Folder")]
+        [Route("Folder/{F_id}")]
         [HttpPost]
-        public PartialViewResult _FolderLoad(int F_id)
+        public RedirectToRouteResult _FolderLoad(int F_id)
         {
             if (Session["user"] == null)
             {
-                return PartialView("Index", "Login");
+                return RedirectToAction("Index", "Login");
             }
             else
             {
-                var user = Session["user"] as Account;
-
-                ViewBag.F_id = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).Select(x => x.AlbumID).Take(1).ToList();
-                ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).ToList();
-                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).Select(x => x.TenHinh).ToList();
-                return PartialView();
+                TempData["fid"] = F_id;
+                return RedirectToAction("Index");
             }
         }
         #endregion
+        [Route("abc")]
+        public PartialViewResult abc()
+        {
+            var user = Session["user"] as Account;
+            var F_id = Convert.ToInt32(TempData["fid"]);
 
+            ViewBag.F_id = F_id;
+            ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).ToList();
+            ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).Select(x => x.TenHinh).ToList();
+            return PartialView();
+        }
 
         #region Upload
 
@@ -80,9 +83,9 @@ namespace IMine.Controllers
         /// <param name="files">Hình ảnh upload</param>
         /// <returns>Lưu vào db</returns>
         [HttpPost]
-        public ActionResult Upload(IEnumerable<HttpPostedFileBase> files, int? F_id)
+        public ActionResult Upload(IEnumerable<HttpPostedFileBase> files, string F_id)
         {
-            var ktHinh = new[] { ".png", ".jpg", "jpeg"};
+            var ktHinh = new[] { ".png", ".jpg", "jpeg" };
             var user = Session["user"] as Account;
             foreach (var item in files)
             {
@@ -98,7 +101,7 @@ namespace IMine.Controllers
                     {
                         TenHinh = name + ext,
                         UserID = user.ID,
-                        AlbumID = F_id 
+                        AlbumID = int.Parse(F_id)
                     };
                     db.HinhAnhs.Add(img);
                     db.SaveChanges();
@@ -106,8 +109,8 @@ namespace IMine.Controllers
                     item.SaveAs(Server.MapPath("~/Photos/" + userImage));
                 }
             }
-            
-                return RedirectToAction("Index");
+
+            return RedirectToAction("Index", new { F_id = F_id});
         }
         #endregion
 
@@ -119,18 +122,19 @@ namespace IMine.Controllers
         /// <param name="model">Thông tin folder( tên, chú thích)</param>
         /// <returns>Folder mới + tên</returns>
         [HttpPost]
-        public ActionResult CreateFolder(FolderModel model)
+        public ActionResult CreateFolder(FolderModel model, string F_id)
         {
             var user = Session["user"] as Account;
             Album ab = new Album()
             {
                 TenAlbum = model.Fname,
-                UserID = user.ID
+                UserID = user.ID,
+                AlbumCha = int.Parse(F_id)
             };
 
             db.Albums.Add(ab);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { F_id = F_id });
         }
         #endregion
 

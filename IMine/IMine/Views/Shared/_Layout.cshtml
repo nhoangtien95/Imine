@@ -1,4 +1,7 @@
 ﻿<!DOCTYPE html>
+@{ 
+    var user = Session["user"] as IMine.Models.Account;
+}
 <html lang="en">
 
 <!-- Nulled by http://www.baobinh.net by tieulonglanh -->
@@ -70,7 +73,7 @@
                     </div>
                     <ul class="nav navbar navbar-top-links navbar-right mbn">
                         <li class="dropdown topbar-user">
-                            <a data-hover="dropdown" href="#" class="dropdown-toggle"><img src="images/avatar/48.jpg" alt="" class="img-responsive img-circle" />&nbsp;<span class="hidden-xs">Robert John</span>&nbsp;<span class="caret"></span></a>
+                            <a data-hover="dropdown" href="#" class="dropdown-toggle">@*<img src="images/avatar/48.jpg" alt="" class="img-responsive img-circle" />*@&nbsp;<span class="hidden-xs">@user.HoTen</span>&nbsp;<span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-user pull-right">
                                 <li><a href="#"><i class="fa fa-user"></i>My Profile</a></li>
 
