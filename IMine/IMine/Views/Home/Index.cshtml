@@ -40,13 +40,45 @@
 
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+    <!--Fancy Box-->
 
+    <script src="~/Scripts/jquery-1.10.1.min.js"></script>
+    <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.fancybox.pack.js"></script>
+
+    <link href="~/Content/jquery.fancybox-buttons.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.fancybox-buttons.js"></script>
+
+    <script src="~/Scripts/jquery.fancybox-thumbs.js"></script>
+    <link href="~/Content/jquery.fancybox-thumbs.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.fancybox-media.js"></script>
+
+
+
+
+    <script>
         function myFunction() {
             $("#dialog-message").dialog("open");
         }
+
+        $(document).ready(function () {
+
+            $('.fancybox').fancybox({
+                helpers: {
+                    thumbs: {
+                        width: 50,
+                        height: 50,
+                        source: function (current) {
+                            console.log($(current.element).data('thumbnail'));
+                            return $(current.element).data('thumbnail');
+                        }
+                    }
+                }
+            });
+
+        });
 
 
         $(function () {
@@ -58,7 +90,6 @@
                     url: "/Folder/" + fid,
                     type: 'POST',
                     success: function () {
-                        alert("success");
                         $('#F_load').load('@Url.Content("abc")');
                     }
                 });
@@ -133,7 +164,9 @@
         @foreach (var item in ViewBag.img)
         {
             <div class="col-sm-6 col-md-3" style="width:160px;">
-                <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Photos/@item" />
+                <a class="fancybox" data-thumbnail="/Photos/@item" href="/Photos/@item" data-fancybox-group="gallery" title="">
+                    <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="/Photos/@item" />
+                </a>
             </div>
         }
     </div>

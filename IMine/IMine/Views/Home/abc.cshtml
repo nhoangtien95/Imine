@@ -38,10 +38,27 @@
     </style>
 
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
     <script>
+
+        $(document).ready(function () {
+
+            $('.fancybox').fancybox({
+                helpers: {
+                    thumbs: {
+                        width: 50,
+                        height: 50,
+                        source: function (current) {
+                            console.log($(current.element).data('thumbnail'));
+                            return $(current.element).data('thumbnail');
+                        }
+                    }
+                }
+            });
+
+        });
 
         function myFunction() {
             $("#dialog-message").dialog("open");
@@ -132,7 +149,9 @@
         @foreach (var item in ViewBag.img)
         {
             <div class="col-sm-6 col-md-3" style="width:160px;">
-                <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Photos/@item" />
+                <a class="fancybox" data-thumbnail="~/Photos/@item" href="~/Photos/@item" data-fancybox-group="gallery" title="">
+                    <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Photos/@item" />
+                </a>
             </div>
         }
     </div>
