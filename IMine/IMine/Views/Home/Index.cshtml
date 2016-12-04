@@ -2,12 +2,12 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var f_id = ViewBag.F_id ;
+    var f_id = ViewBag.F_id;
     var folder = ViewBag.folder as List<IMine.Models.Album>;
 }
 
 <head>
-    
+
     <style>
         .imgUpload {
             max-height: 60px;
@@ -41,7 +41,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
     <!--Fancy Box-->
 
     <script src="~/Scripts/jquery-1.10.1.min.js"></script>
@@ -99,14 +99,12 @@
 
         $(function () {
 
-            $('.onDelete').click(function () {
+            $('.onDelete').on("click", function () {
+
                 $('.dis').attr('disabled', true);
-                $('.dis').click(function () { return false; });
-                $(".folder").click(function () {
-                    var $checkbox = $(this).find(':checkbox');
-                    $checkbox.attr('checked', !$checkbox.attr('checked'));
-                });
-                $(".fancybox").click(function () {
+                $('.onCancel').show()
+                $('.cBox').show();
+                $(".cBox").click(function () {
                     var $checkbox = $(this).find(':checkbox');
                     if ($checkbox.is(':checked')) {
                         $checkbox.prop("checked", false);
@@ -119,6 +117,21 @@
 
         });
 
+        function unCheck() {
+            var $checkbox = $('.cBox').find(':checkbox');
+            if ($checkbox.is(':checked')) {
+                $checkbox.prop("checked", false);
+            }
+        };
+
+        $(function () {
+            $('.onCancel').click(function () {
+                $('.cBox').hide();
+                $('.onCancel').hide();
+                $('.dis').attr('disabled', false);
+                unCheck();
+            });
+        });
     </script>
 
 </head>
@@ -154,8 +167,11 @@
             </div>
         </div>
 
-        <button type="button" class="btn btn-default dis" id="create-folder" data-toggle="modal" data-target="#myModal">Tạo Thư Mục Mới</button> <button type="button" class="btn btn-default onDelete">Xóa</button>  <br /><br /><br />
-
+        <button type="button" class="btn btn-default dis" id="create-folder" data-toggle="modal" data-target="#myModal">Tạo Thư Mục Mới</button>
+        
+        <button type="button" style="display:none" class="btn btn-default onCancel">Hủy</button>
+        <button type="button" style="right:3px;" class="btn btn-default onDelete dis">Xóa</button>
+        <br /><br /><br />
 
 
 
@@ -171,12 +187,16 @@
             @foreach (var item in folder)
             {
                 <div class="col-sm-6 col-md-3" style="width:160px;">
+                    <div class="cBox" style="display:none; z-index:2; position: absolute; margin-top:18px; background-color:transparent; height:35px; width:130px; max-height:35px; max-width:130px;">
+                        <span> <input type="checkbox" name="deleteImg" value="@item.AlbumID" style=" width: 23px; height: 23px; bottom:6px; right:3px; position:absolute;" /> </span>
+                    </div>
 
-                    <div class="input-icon folder dis" data-folder="@item.AlbumID">
+                    <div class="input-icon folder" id="@item.AlbumID" data-folder="@item.AlbumID">
                         <i class="fa fa-file"></i>
-                        <h3 style="padding-left:30px; overflow:hidden;" class="form-control">@item.TenAlbum<span> <input type="checkbox" class="@item.AlbumID" name="deleteImg" value="@item" style="width: 23px; height: 23px; right:1px; bottom:5px;  position:absolute;" /> </span></h3>
+                        <h3 style="padding-left:30px; overflow:hidden;" class="form-control">@item.TenAlbum</h3>
                     </div>
                 </div>
+
             }
         </div>
 
@@ -187,9 +207,11 @@
             @foreach (var item in ViewBag.img)
             {
                 <div class="col-sm-6 col-md-3" style="width:160px;">
-                    
-                    <a class="fancybox dis" data-thumbnail="/Photos/@item" href="/Photos/@item" data-fancybox-group="gallery" title="">
-                        <span> <input type="checkbox" name="deleteImg" value="@item" style="width: 23px; height: 23px; margin-left: -1px; margin-top: -1px; position:absolute;" /> </span>
+                    <div class="cBox" style=" display:none; z-index:2; position: absolute; background-color:transparent; height:160px; width:126px; max-height:160px; max-width:126px;">
+                        <span> <input type="checkbox" name="deleteImg" value="@item" style=" width: 23px; height: 23px; margin-left: -1px; margin-top: -1px; position:absolute;" /> </span>
+                    </div>
+
+                    <a class="fancybox" style="z-index:1;" data-thumbnail="/Photos/@item" href="/Photos/@item" data-fancybox-group="gallery" title="">
                         <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="/Photos/@item" />
                     </a>
                 </div>
