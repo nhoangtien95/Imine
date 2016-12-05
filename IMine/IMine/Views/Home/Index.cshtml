@@ -102,7 +102,8 @@
             $('.onDelete').on("click", function () {
 
                 $('.dis').attr('disabled', true);
-                $('.onCancel').show()
+                $('.onCancel').show();
+                $('.onOK').show();
                 $('.cBox').show();
                 $(".cBox").click(function () {
                     var $checkbox = $(this).find(':checkbox');
@@ -127,10 +128,23 @@
         $(function () {
             $('.onCancel').click(function () {
                 $('.cBox').hide();
+                $('.onOK').hide();
                 $('.onCancel').hide();
                 $('.dis').attr('disabled', false);
                 unCheck();
             });
+        });
+
+        $(function () {
+
+            $('.onOK').click(function () {
+                var checkedValues = $('.cValue:checked').map(function () {
+                    return this.value;
+                }).get();
+
+                alert(checkedValues);
+            });
+
         });
     </script>
 
@@ -168,7 +182,7 @@
         </div>
 
         <button type="button" class="btn btn-default dis" id="create-folder" data-toggle="modal" data-target="#myModal">Tạo Thư Mục Mới</button>
-        
+        <button type="button" style="display:none" class="btn btn-default onOK">Xác Nhận</button>
         <button type="button" style="display:none" class="btn btn-default onCancel">Hủy</button>
         <button type="button" style="right:3px;" class="btn btn-default onDelete dis">Xóa</button>
         <br /><br /><br />
@@ -188,7 +202,7 @@
             {
                 <div class="col-sm-6 col-md-3" style="width:160px;">
                     <div class="cBox" style="display:none; z-index:2; position: absolute; margin-top:18px; background-color:transparent; height:35px; width:130px; max-height:35px; max-width:130px;">
-                        <span> <input type="checkbox" name="deleteImg" value="@item.AlbumID" style=" width: 23px; height: 23px; bottom:6px; right:3px; position:absolute;" /> </span>
+                        <span> <input type="checkbox" name="deleteImg" class="cValue" value="@item.AlbumID" style=" width: 23px; height: 23px; bottom:6px; right:3px; position:absolute;" /> </span>
                     </div>
 
                     <div class="input-icon folder" id="@item.AlbumID" data-folder="@item.AlbumID">
@@ -208,7 +222,7 @@
             {
                 <div class="col-sm-6 col-md-3" style="width:160px;">
                     <div class="cBox" style=" display:none; z-index:2; position: absolute; background-color:transparent; height:160px; width:126px; max-height:160px; max-width:126px;">
-                        <span> <input type="checkbox" name="deleteImg" value="@item" style=" width: 23px; height: 23px; margin-left: -1px; margin-top: -1px; position:absolute;" /> </span>
+                        <span> <input type="checkbox" name="deleteImg" class="cValue" value="@item" style=" width: 23px; height: 23px; margin-left: -1px; margin-top: -1px; position:absolute;" /> </span>
                     </div>
 
                     <a class="fancybox" style="z-index:1;" data-thumbnail="/Photos/@item" href="/Photos/@item" data-fancybox-group="gallery" title="">
