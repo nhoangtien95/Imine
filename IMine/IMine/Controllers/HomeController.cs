@@ -32,7 +32,7 @@ namespace IMine.Controllers
 
                 ViewBag.F_id = F_id;
                 ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).ToList();
-                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).Select(x => x.TenHinh).ToList();
+                ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).ToList();
                                 
                 return View();
             }
@@ -71,7 +71,7 @@ namespace IMine.Controllers
 
             ViewBag.F_id = F_id;
             ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).ToList();
-            ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).Select(x => x.TenHinh).ToList();
+            ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).ToList();
             return PartialView();
         }
 

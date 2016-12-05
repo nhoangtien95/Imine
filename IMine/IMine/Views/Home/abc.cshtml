@@ -1,8 +1,9 @@
 ﻿@model IMine.Models.FolderModel
 @{
     ViewBag.Title = "Index";
-    var f_id = ViewBag.F_id ;
+    var f_id = ViewBag.F_id;
     var folder = ViewBag.folder as List<IMine.Models.Album>;
+    var img = ViewBag.img as List<IMine.Models.HinhAnh>;
 }
 
 <head>
@@ -39,9 +40,27 @@
 
 
     @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script src="~/Scripts/jquery-1.10.1.min.js"></script>
+             <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
+             <script src="~/Scripts/jquery.fancybox.pack.js"></script>
+
+             <link href="~/Content/jquery.fancybox-buttons.css" rel="stylesheet" />
+             <script src="~/Scripts/jquery.fancybox-buttons.js"></script>
+
+             <script src="~/Scripts/jquery.fancybox-thumbs.js"></script>
+             <link href="~/Content/jquery.fancybox-thumbs.css" rel="stylesheet" />
+             <script src="~/Scripts/jquery.fancybox-media.js"></script>*@
+
+
+
+
     <script>
+        function myFunction() {
+            $("#dialog-message").dialog("open");
+        }
 
         $(document).ready(function () {
 
@@ -60,20 +79,15 @@
 
         });
 
-        function myFunction() {
-            $("#dialog-message").dialog("open");
-        }
 
-         $(function () {
+        $(function () {
 
             $('.folder').click(function () {
                 var fid = $(this).data('folder');
-                alert(fid);
                 $.ajax({
                     url: "/Folder/" + fid,
                     type: 'POST',
                     success: function () {
-                        alert("success");
                         $('#F_load').load('@Url.Content("abc")');
                     }
                 });
@@ -81,79 +95,146 @@
 
         });
 
+        //$(function () {
+
+        //    $('.onDelete').on("click", function () {
+        //        alert("abc");
+        //        $('.dis').attr('disabled', true);
+        //        $('.onCancel').show();
+        //        $('.onOK').show();
+        //        $('.cBox').show();
+        //        $(".cBox").click(function () {
+        //            var $checkbox = $(this).find(':checkbox');
+        //            if ($checkbox.is(':checked')) {
+        //                $checkbox.prop("checked", false);
+        //            }
+        //            else {
+        //                $checkbox.prop("checked", true);
+        //            }
+        //        });
+        //    });
+
+        //});
+
+        //function unCheck() {
+        //    var $checkbox = $('.cBox').find(':checkbox');
+        //    if ($checkbox.is(':checked')) {
+        //        $checkbox.prop("checked", false);
+        //    }
+        //};
+
+        //$(function () {
+        //    $('.onCancel').click(function () {
+        //        $('.cBox').hide();
+        //        $('.onOK').hide();
+        //        $('.onCancel').hide();
+        //        $('.dis').attr('disabled', false);
+        //        unCheck();
+        //    });
+        //});
+
+        //$(function () {
+
+        //    $('.onOK').click(function () {
+        //        var FolderValues = $('.cFolderValue:checked').map(function () {
+        //            return this.value;
+        //        }).get();
+
+
+        //        var ImgValues = $('.cImgValue:checked').map(function () {
+        //            return this.value;
+        //        }).get();
+
+        //        alert(FolderValues);
+        //        alert(ImgValues);
+        //    });
+
+        //});
     </script>
 
 </head>
+<body>
+    <div id="F_load">
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Thư mục mới</h4>
+                    </div>
 
-<div id="F_load">
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Thư mục mới</h4>
-                </div>
-
-                @using (Html.BeginForm("CreateFolder", "Home", FormMethod.Post))
+                    @using (Html.BeginForm("CreateFolder", "Home", FormMethod.Post))
             {
-                    <div class="modal-body">
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
-                        <fieldset>
-                            <label>Tên Thư Mục</label>
-                            @Html.TextBoxFor(model => model.Fname, null, new { @class = "text ui-widget-content ui-corner-all" })
-                            <label>Chú Thích</label>
-                            @Html.TextBoxFor(model => model.ChuThich, null, new { @class = "text ui-widget-content ui-corner-all" })
-                        </fieldset>
+                        <div class="modal-body">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+                            <fieldset>
+                                <label>Tên Thư Mục</label>
+                                @Html.TextBoxFor(model => model.Fname, null, new { @class = "text ui-widget-content ui-corner-all" })
+                                <label>Chú Thích</label>
+                                @Html.TextBoxFor(model => model.ChuThich, null, new { @class = "text ui-widget-content ui-corner-all" })
+                            </fieldset>
 
-                    </div>
-                    <div class="modal-footer">
-                        <input type="text" style="display:none" id="F_id" name="F_id" value=@f_id />
-                        <input id="btnSubmit" class="btn btn-default" type="submit" value="Submit" />
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                    </div>
-                }
+                        </div>
+                        <div class="modal-footer">
+                            <input id="btnSubmit" class="btn btn-default" type="submit" value="Submit" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-    </div>
 
-    <button type="button" class="btn btn-default" id="create-folder" data-toggle="modal" data-target="#myModal">Tạo Thư Mục Mới</button> <br /><br /><br />
+        @*<button type="button" class="btn btn-default dis" id="create-folder" data-toggle="modal" data-target="#myModal">Tạo Thư Mục Mới</button>
+        <button type="button" style="display:none" class="btn btn-default onOK">Xác Nhận</button>
+        <button type="button" style="display:none" class="btn btn-default onCancel">Hủy</button>
+        <button type="button" style="right:3px;" class="btn btn-default onDelete dis">Xóa</button>
+        <br /><br /><br />*@
 
 
 
-
-    @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @class = "upLoad", enctype = "multipart/form-data" }))
-    {
-        <img style="position:absolute; bottom:50px; right:50px " src="~/Content/images/button.png" class="imgUpload" onclick="OpenFiledialog()" />
-        <input type="text" style="display:none" id="F_id" name="F_id" value=@f_id />
-        <input name="files" class="mainSubmit" type="file" style="display:none" onchange="UploadFile()" multiple />
-    }
-
-    <div style="width:100%"><span class="label label-default">Thư mục</span></div>
-    <div class="row">
-        @foreach (var item in folder)
+        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @class = "upLoad", enctype = "multipart/form-data" }))
         {
-            <div class="col-sm-6 col-md-3" style="width:160px;">
-                <div class="input-icon folder" data-folder="@item.AlbumID">
-                    <i class="fa fa-file"></i>
-                    <h3 style="padding-left:30px; overflow:hidden;" class="form-control">@item.TenAlbum</h3>
+            <img style="position:absolute; bottom:50px; right:50px " src="~/Content/images/button.png" class="imgUpload dis" onclick="OpenFiledialog()" />
+            <input type="hidden" id="F_id" name="F_id" value=@f_id />
+            <input name="files" class="mainSubmit" type="file" style="display:none" onchange="UploadFile()" multiple />
+        }
+
+        <div style="width:100%"><span class="label label-default">Thư mục</span></div>
+        <div class="row">
+            @foreach (var item in folder)
+            {
+                <div class="col-sm-6 col-md-3" style="width:160px;">
+                    <div class="cBox" style="display:none; z-index:2; position: absolute; margin-top:18px; background-color:transparent; height:35px; width:130px; max-height:35px; max-width:130px;">
+                        <span> <input type="checkbox" name="deleteImg" class="cFolderValue" value="@item.AlbumID" style=" width: 23px; height: 23px; bottom:6px; right:3px; position:absolute;" /> </span>
+                    </div>
+
+                    <div class="input-icon folder" id="@item.AlbumID" data-folder="@item.AlbumID">
+                        <i class="fa fa-file"></i>
+                        <h3 style="padding-left:30px; overflow:hidden;" class="form-control">@item.TenAlbum</h3>
+                    </div>
                 </div>
-            </div>
-        }
-    </div>
 
-    <br /><br />
-    <div style="width:100%"><span class="label label-default">Hình ảnh</span></div>
-    <br />
-    <div class="row">
-        @foreach (var item in ViewBag.img)
-        {
-            <div class="col-sm-6 col-md-3" style="width:160px;">
-                <a class="fancybox" data-thumbnail="~/Photos/@item" href="~/Photos/@item" data-fancybox-group="gallery" title="">
-                    <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="~/Photos/@item" />
-                </a>
-            </div>
-        }
-    </div>
+            }
+        </div>
 
-</div>
+        <br /><br />
+        <div style="width:100%"><span class="label label-default">Hình ảnh</span></div>
+        <br />
+        <div class="row">
+            @foreach (var item in img)
+            {
+                <div class="col-sm-6 col-md-3" style="width:160px;">
+                    <div class="cBox" style=" display:none; z-index:2; position: absolute; background-color:transparent; height:160px; width:126px; max-height:160px; max-width:126px;">
+                        <span> <input type="checkbox" name="deleteImg" class="cImgValue" value="@item.HinhID" style=" width: 23px; height: 23px; margin-left: -1px; margin-top: -1px; position:absolute;" /> </span>
+                    </div>
+
+                    <a class="fancybox" style="z-index:1;" data-thumbnail="/Photos/@item.TenHinh" href="/Photos/@item.TenHinh" data-fancybox-group="gallery" title="">
+                        <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="/Photos/@item.TenHinh" />
+                    </a>
+                </div>
+            }
+        </div>
+
+    </div>
+</body>

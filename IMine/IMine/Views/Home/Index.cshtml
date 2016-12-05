@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var f_id = ViewBag.F_id;
     var folder = ViewBag.folder as List<IMine.Models.Album>;
+    var img = ViewBag.img as List<IMine.Models.HinhAnh>;
 }
 
 <head>
@@ -85,7 +86,6 @@
 
             $('.folder').click(function () {
                 var fid = $(this).data('folder');
-                alert(fid);
                 $.ajax({
                     url: "/Folder/" + fid,
                     type: 'POST',
@@ -97,55 +97,61 @@
 
         });
 
-        $(function () {
+        //$(function () {
 
-            $('.onDelete').on("click", function () {
+        //    $('.onDelete').on("click", function () {
 
-                $('.dis').attr('disabled', true);
-                $('.onCancel').show();
-                $('.onOK').show();
-                $('.cBox').show();
-                $(".cBox").click(function () {
-                    var $checkbox = $(this).find(':checkbox');
-                    if ($checkbox.is(':checked')) {
-                        $checkbox.prop("checked", false);
-                    }
-                    else {
-                        $checkbox.prop("checked", true);
-                    }
-                });
-            });
+        //        $('.dis').attr('disabled', true);
+        //        $('.onCancel').show();
+        //        $('.onOK').show();
+        //        $('.cBox').show();
+        //        $(".cBox").click(function () {
+        //            var $checkbox = $(this).find(':checkbox');
+        //            if ($checkbox.is(':checked')) {
+        //                $checkbox.prop("checked", false);
+        //            }
+        //            else {
+        //                $checkbox.prop("checked", true);
+        //            }
+        //        });
+        //    });
 
-        });
+        //});
 
-        function unCheck() {
-            var $checkbox = $('.cBox').find(':checkbox');
-            if ($checkbox.is(':checked')) {
-                $checkbox.prop("checked", false);
-            }
-        };
+        //function unCheck() {
+        //    var $checkbox = $('.cBox').find(':checkbox');
+        //    if ($checkbox.is(':checked')) {
+        //        $checkbox.prop("checked", false);
+        //    }
+        //};
 
-        $(function () {
-            $('.onCancel').click(function () {
-                $('.cBox').hide();
-                $('.onOK').hide();
-                $('.onCancel').hide();
-                $('.dis').attr('disabled', false);
-                unCheck();
-            });
-        });
+        //$(function () {
+        //    $('.onCancel').click(function () {
+        //        $('.cBox').hide();
+        //        $('.onOK').hide();
+        //        $('.onCancel').hide();
+        //        $('.dis').attr('disabled', false);
+        //        unCheck();
+        //    });
+        //});
 
-        $(function () {
+        //$(function () {
 
-            $('.onOK').click(function () {
-                var checkedValues = $('.cValue:checked').map(function () {
-                    return this.value;
-                }).get();
+        //    $('.onOK').click(function () {
+        //        var FolderValues = $('.cFolderValue:checked').map(function () {
+        //            return this.value;
+        //        }).get();
 
-                alert(checkedValues);
-            });
 
-        });
+        //        var ImgValues = $('.cImgValue:checked').map(function () {
+        //            return this.value;
+        //        }).get();
+
+        //        alert(FolderValues);
+        //        alert(ImgValues);
+        //    });
+
+        //});
     </script>
 
 </head>
@@ -181,11 +187,11 @@
             </div>
         </div>
 
-        <button type="button" class="btn btn-default dis" id="create-folder" data-toggle="modal" data-target="#myModal">Tạo Thư Mục Mới</button>
+        @*<button type="button" class="btn btn-default dis" id="create-folder" data-toggle="modal" data-target="#myModal">Tạo Thư Mục Mới</button>
         <button type="button" style="display:none" class="btn btn-default onOK">Xác Nhận</button>
         <button type="button" style="display:none" class="btn btn-default onCancel">Hủy</button>
         <button type="button" style="right:3px;" class="btn btn-default onDelete dis">Xóa</button>
-        <br /><br /><br />
+        <br /><br /><br />*@
 
 
 
@@ -202,7 +208,7 @@
             {
                 <div class="col-sm-6 col-md-3" style="width:160px;">
                     <div class="cBox" style="display:none; z-index:2; position: absolute; margin-top:18px; background-color:transparent; height:35px; width:130px; max-height:35px; max-width:130px;">
-                        <span> <input type="checkbox" name="deleteImg" class="cValue" value="@item.AlbumID" style=" width: 23px; height: 23px; bottom:6px; right:3px; position:absolute;" /> </span>
+                        <span> <input type="checkbox" name="deleteImg" class="cFolderValue" value="@item.AlbumID" style=" width: 23px; height: 23px; bottom:6px; right:3px; position:absolute;" /> </span>
                     </div>
 
                     <div class="input-icon folder" id="@item.AlbumID" data-folder="@item.AlbumID">
@@ -218,15 +224,15 @@
         <div style="width:100%"><span class="label label-default">Hình ảnh</span></div>
         <br />
         <div class="row">
-            @foreach (var item in ViewBag.img)
+            @foreach (var item in img)
             {
                 <div class="col-sm-6 col-md-3" style="width:160px;">
                     <div class="cBox" style=" display:none; z-index:2; position: absolute; background-color:transparent; height:160px; width:126px; max-height:160px; max-width:126px;">
-                        <span> <input type="checkbox" name="deleteImg" class="cValue" value="@item" style=" width: 23px; height: 23px; margin-left: -1px; margin-top: -1px; position:absolute;" /> </span>
+                        <span> <input type="checkbox" name="deleteImg" class="cImgValue" value="@item.HinhID" style=" width: 23px; height: 23px; margin-left: -1px; margin-top: -1px; position:absolute;" /> </span>
                     </div>
 
-                    <a class="fancybox" style="z-index:1;" data-thumbnail="/Photos/@item" href="/Photos/@item" data-fancybox-group="gallery" title="">
-                        <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="/Photos/@item" />
+                    <a class="fancybox" style="z-index:1;" data-thumbnail="/Photos/@item.TenHinh" href="/Photos/@item.TenHinh" data-fancybox-group="gallery" title="">
+                        <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="/Photos/@item.TenHinh" />
                     </a>
                 </div>
             }
