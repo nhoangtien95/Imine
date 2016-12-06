@@ -78,10 +78,8 @@
             });
 
         });
-
-
-        $(function () {
-
+        
+      
             $('.folder').click(function () {
                 var fid = $(this).data('folder');
                 $.ajax({
@@ -93,63 +91,67 @@
                 });
             });
 
+
+        $(function () {
+
+            $('.onDelete').on("click", function () {
+                alert("abc");
+                $('.dis').attr('disabled', true);
+                $('.onCancel').show();
+                $('.onOK').show();
+                $('.cBox').show();                
+            });
+
         });
 
-        //$(function () {
+      
 
-        //    $('.onDelete').on("click", function () {
-        //        alert("abc");
-        //        $('.dis').attr('disabled', true);
-        //        $('.onCancel').show();
-        //        $('.onOK').show();
-        //        $('.cBox').show();
-        //        $(".cBox").click(function () {
-        //            var $checkbox = $(this).find(':checkbox');
-        //            if ($checkbox.is(':checked')) {
-        //                $checkbox.prop("checked", false);
-        //            }
-        //            else {
-        //                $checkbox.prop("checked", true);
-        //            }
-        //        });
-        //    });
-
-        //});
-
-        //function unCheck() {
-        //    var $checkbox = $('.cBox').find(':checkbox');
-        //    if ($checkbox.is(':checked')) {
-        //        $checkbox.prop("checked", false);
-        //    }
-        //};
-
-        //$(function () {
-        //    $('.onCancel').click(function () {
-        //        $('.cBox').hide();
-        //        $('.onOK').hide();
-        //        $('.onCancel').hide();
-        //        $('.dis').attr('disabled', false);
-        //        unCheck();
-        //    });
-        //});
-
-        //$(function () {
-
-        //    $('.onOK').click(function () {
-        //        var FolderValues = $('.cFolderValue:checked').map(function () {
-        //            return this.value;
-        //        }).get();
+            $(".cBox").click(function () {
+                var $checkbox = $(this).find(':checkbox');
+                if ($checkbox.is(':checked')) {
+                    $checkbox.prop("checked", false);
+                }
+                else {
+                    $checkbox.prop("checked", true);
+                }
+            });
 
 
-        //        var ImgValues = $('.cImgValue:checked').map(function () {
-        //            return this.value;
-        //        }).get();
+        function unCheck() {
+            var $checkbox = $('.cBox').find(':checkbox');
+            if ($checkbox.is(':checked')) {
+                $checkbox.prop("checked", false);
+            }
+        };
 
-        //        alert(FolderValues);
-        //        alert(ImgValues);
-        //    });
+        $(function () {
+            $('.onCancel').click(function () {
+                $('.cBox').hide();
+                $('.onOK').hide();
+                $('.onCancel').hide();
+                $('.dis').attr('disabled', false);
+                unCheck();
+            });
+        });
 
-        //});
+        $(function () {
+
+            $('.onOK').click(function () {
+                var FolderValues = $('.cFolderValue:checked').map(function () {
+                    return this.value;
+                }).get();
+
+
+                var ImgValues = $('.cImgValue:checked').map(function () {
+                    return this.value;
+                }).get();
+
+                alert(FolderValues);
+                alert(ImgValues);
+            });
+
+        });
+
     </script>
 
 </head>

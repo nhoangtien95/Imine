@@ -137,13 +137,13 @@ namespace IMine.Controllers
             return RedirectToAction("Index", new { F_id = F_id });
         }
         #endregion
-
-
-        public ActionResult Contact()
+        [HttpPost]
+        [Route("delete/{F_id}-{FolderValues}-{ImgValues}")]
+        public RedirectToRouteResult Delete(int?[] FolderValues, int?[] ImgValues, int? F_id)
         {
             ViewBag.Message = "Your contact page.";
 
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }
