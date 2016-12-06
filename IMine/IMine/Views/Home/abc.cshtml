@@ -175,6 +175,7 @@
                                 @Html.TextBoxFor(model => model.Fname, null, new { @class = "text ui-widget-content ui-corner-all" })
                                 <label>Chú Thích</label>
                                 @Html.TextBoxFor(model => model.ChuThich, null, new { @class = "text ui-widget-content ui-corner-all" })
+                                @Html.TextBoxFor(model => model.F_id, null, new { @class = "text ui-widget-content ui-corner-all", type = "hidden", @Value = f_id })
                             </fieldset>
 
                         </div>
@@ -186,12 +187,6 @@
                 </div>
             </div>
         </div>
-
-        @*<button type="button" class="btn btn-default dis" id="create-folder" data-toggle="modal" data-target="#myModal">Tạo Thư Mục Mới</button>
-        <button type="button" style="display:none" class="btn btn-default onOK">Xác Nhận</button>
-        <button type="button" style="display:none" class="btn btn-default onCancel">Hủy</button>
-        <button type="button" style="right:3px;" class="btn btn-default onDelete dis">Xóa</button>
-        <br /><br /><br />*@
 
 
 

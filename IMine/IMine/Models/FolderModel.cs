@@ -12,5 +12,6 @@ namespace IMine.Models
         public string Fname { get; set; }
 
         public string ChuThich { get; set; }
+        public int? F_id { get; set; }
     }
 }
