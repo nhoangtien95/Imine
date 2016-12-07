@@ -17,6 +17,7 @@
           <Property Name="NgaySinh" Type="nvarchar" MaxLength="12" />
           <Property Name="Phone" Type="varchar" MaxLength="15" />
           <Property Name="TrangThai" Type="tinyint" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Album">
           <Key>
@@ -59,6 +60,7 @@
           <Property Name="TrangThai" Type="Byte" />
           <Property Name="GioiTinh" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="NgaySinh" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="WebAnhDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Accounts" EntityType="Self.Account" />
@@ -94,6 +96,7 @@
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="WebAnhDBModel.Account">
               <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
                 <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

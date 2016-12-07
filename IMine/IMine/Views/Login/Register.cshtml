@@ -26,14 +26,15 @@
             <div class="form-horizontal">
                 @using (Html.BeginForm("Register", "Login", FormMethod.Post))
                 {
-
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
                     <h3>Thông Tin Tài Khoản</h3>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Email</label>
 
                                         <div class="col-sm-9 controls">
                                             <div class="row">
-                                                <div class="col-xs-9">@Html.TextBoxFor(x => x.email, new { @class= "form-control", @type = "email", @placeholder = "email@abc.com" })</div>
+                                                <div class="col-xs-9">@Html.TextBoxFor(x => x.email, new { @class= "form-control", @type = "email", @placeholder = "email@abc.com", @required = "required" })</div>
                                             </div>
                                         </div>
                                     </div>
@@ -42,7 +43,7 @@
 
                                         <div class="col-sm-9 controls">
                                             <div class="row">
-                                                <div class="col-xs-9">@Html.TextBoxFor(x => x.username, new { @class = "form-control", @type = "text", @placeholder = "Tài khoản" })</div>
+                                                <div class="col-xs-9">@Html.TextBoxFor(x => x.username, new { @class = "form-control", @type = "text", @placeholder = "Tài khoản", @required = "required" })</div>
                                             </div>
                                         </div>
                                     </div>
@@ -51,7 +52,7 @@
 
                                         <div class="col-sm-9 controls">
                                             <div class="row">
-                                                <div class="col-xs-4">@Html.TextBoxFor(x => x.password, new { @class = "form-control", @type = "password", @placeholder = "Mật khẩu" })</div>
+                                                <div class="col-xs-4">@Html.TextBoxFor(x => x.password, new { @class = "form-control", @type = "password", @placeholder = "Mật khẩu", @required = "required", @min = "3" }) @Html.ValidationMessageFor(x => x.password)</div>
                                             </div>
                                         </div>
                                     </div>
@@ -60,7 +61,7 @@
 
                                         <div class="col-sm-9 controls">
                                             <div class="row">
-                                                <div class="col-xs-4">@Html.TextBoxFor(x => x.passwordComfirm, new { @class = "form-control", @type = "password", @placeholder = "Xác nhận mật khẩu" })</div>
+                                                <div class="col-xs-4">@Html.TextBoxFor(x => x.passwordComfirm, new { @class = "form-control", @type = "password", @min = "3", @placeholder = "Xác nhận mật khẩu", @required = "required" }) @Html.ValidationMessageFor(x => x.passwordComfirm)</div>
                                             </div>
                                         </div>
                                     </div>
@@ -72,7 +73,16 @@
 
                                         <div class="col-sm-9 controls">
                                             <div class="row">
-                                                <div class="col-xs-9">@Html.TextBoxFor(x => x.name, new { @class = "form-control", @type = "text", @placeholder = "Họ tên" })</div>
+                                                <div class="col-xs-9">@Html.TextBoxFor(x => x.name, new { @class = "form-control", @type = "text", @placeholder = "Họ tên", @required = "required" })</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Số điện thoại</label>
+
+                                        <div class="col-sm-9 controls">
+                                            <div class="row">
+                                                <div class="col-xs-9">@Html.TextBoxFor(x => x.phone, new { @class = "form-control", @type = "text", @placeholder = "Số điện thoại", @required = "required", @maxlength = "12" })</div>
                                             </div>
                                         </div>
                                     </div>
@@ -92,7 +102,7 @@
 
                                         <div class="col-sm-9 controls">
                                             <div class="row">
-                                                <div class="col-xs-4"><input id="datepicker-normal" type="text" class="form-control" /></div>
+                                                <div class="col-xs-4">@Html.TextBoxFor(x => x.dob, new { @class = "form-control", @type = "date", @required = "required" })</div>                                                
                                             </div>
                                         </div>
                                     </div>

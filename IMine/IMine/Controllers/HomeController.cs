@@ -33,7 +33,7 @@ namespace IMine.Controllers
                 //{
                 //    TempData["fid"] = TempData["fid"];
                 //}
-
+                TempData["fid"] = F_id;
                 ViewBag.F_id = F_id;
                 ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).ToList();
                 ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).ToList();
@@ -63,8 +63,7 @@ namespace IMine.Controllers
             else
             {
                 TempData["fid"] = F_id;
-                return RedirectToAction("Index");
-                //return RedirectToAction("abc");
+                return RedirectToAction("abc");
             }
         }
         #endregion
@@ -84,11 +83,10 @@ namespace IMine.Controllers
             }
 
 
-
             ViewBag.F_id = F_id;
             ViewBag.folder = db.Albums.Where(x => x.UserID == user.ID && x.AlbumCha == F_id).ToList();
             ViewBag.img = db.HinhAnhs.Where(x => x.UserID == user.ID && x.AlbumID == F_id).ToList();
-            TempData["fid"] = null;
+
             return PartialView();
         }
 
@@ -102,7 +100,7 @@ namespace IMine.Controllers
         [HttpPost]
         public ActionResult Upload(IEnumerable<HttpPostedFileBase> files, string F_id)
         {
-            var ktHinh = new[] { ".png", ".jpg", "jpeg" };
+            var ktHinh = new[] { ".png", ".jpg", ".jpeg" };
             var user = Session["user"] as Account;
             foreach (var item in files)
             {
@@ -113,20 +111,33 @@ namespace IMine.Controllers
                 {
                     string name = Path.GetFileNameWithoutExtension(fileName);
                     string userImage = name + ext;
-
-                    HinhAnh img = new HinhAnh()
+                    if (F_id == "0")
                     {
-                        TenHinh = name + ext,
-                        UserID = user.ID,
-                        AlbumID = int.Parse(F_id)
-                    };
-                    db.HinhAnhs.Add(img);
+                        HinhAnh img = new HinhAnh()
+                        {
+                            TenHinh = name + ext,
+                            UserID = user.ID,
+                            AlbumID = null
+                        };
+                        db.HinhAnhs.Add(img);
+                    }
+                    else
+                    {
+                        HinhAnh img = new HinhAnh()
+                        {
+                            TenHinh = name + ext,
+                            UserID = user.ID,
+                            AlbumID = int.Parse(F_id)
+                        };
+                        db.HinhAnhs.Add(img);
+                    }
+
                     db.SaveChanges();
 
                     item.SaveAs(Server.MapPath("~/Photos/" + userImage));
                 }
             }
-
+            if (F_id == "0") { F_id = null; }
             return RedirectToAction("Index", new { F_id = F_id });
         }
         #endregion
@@ -158,13 +169,82 @@ namespace IMine.Controllers
         [Route("delete")]
         public RedirectToRouteResult Delete(int?[] FolderValues, int?[] ImgValues)
         {
-            foreach (var folder in FolderValues)
+            if (FolderValues != null)
             {
-                Album album = db.Albums.Where(x => x.AlbumID == folder).FirstOrDefault();
-                db.Albums.Remove(album);
+                foreach (var folder in FolderValues)
+                {
+                    Album album = db.Albums.Where(x => x.AlbumID == folder).FirstOrDefault();
+                    db.Albums.Remove(album);
+                }
             }
+
+            if (ImgValues != null)
+            {
+                foreach (var img in ImgValues)
+                {
+                    HinhAnh image = db.HinhAnhs.Where(x => x.HinhID == img).FirstOrDefault();
+                    db.HinhAnhs.Remove(image);
+                }
+            }
+
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("abc");
+        }
+
+        public ActionResult SlideBar()
+        {
+            var user = Session["user"] as Account;
+            ViewBag.HeadFolder = db.Albums.Where(x => x.AlbumCha == null && x.UserID == user.ID).ToList();
+            return View();
+        }
+
+        public ActionResult SlideBarSelect(int? F_id)
+        {
+            return RedirectToAction("Index", new { F_id = F_id });
+        }
+
+        public ActionResult UserProfile()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UserProfile(AccountModel model)
+        {
+            if (model.password == null || model.passwordComfirm == null)
+            {
+                ModelState.AddModelError("", "Vui lòng không để trống Password");
+            }
+            else
+            {
+                if (model.password != model.passwordComfirm)
+                {
+                    ModelState.AddModelError("", "Mật khẩu không trùng khớp");
+                }
+                else
+                {
+                    //Account ac = new Account()
+                    //{
+                    //    Username = model.username,
+                    //    Password = model.password,
+                    //    HoTen = model.name,
+                    //    Phone = model.phone,
+                    //    Email = model.email,
+                    //    NgaySinh = model.dob,
+                    //    GioiTinh = model.gen,
+                    //    TrangThai = 1
+                    //};
+                    var ac = db.Accounts.Where(x => x.ID == model.id).FirstOrDefault();
+                    ac.Phone = model.phone;
+                    ac.Password = model.password;
+                    ac.GioiTinh = model.gen;
+
+                    db.Entry(ac).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            return View();
         }
     }
 }

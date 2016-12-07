@@ -35,7 +35,7 @@
 
             .I-image:hover {
                 cursor: pointer;
-                margin-top: -8px;
+                opacity: 0.4;
             }
     </style>
 
@@ -131,7 +131,7 @@
                 $checkbox.prop("checked", false);
             }
         };
-
+        
         $(function () {
             $('.onCancel').click(function () {
                 $('.cBox').hide();
@@ -144,7 +144,7 @@
 
         $(function () {
 
-            $('.onOK').click(function () {
+            $('.onOK').on("click",function () {
                 var FolderValues = $('.cFolderValue:checked').map(function () {
                     return this.value;
                 }).get();
@@ -156,7 +156,7 @@
 
                 $.ajax({
                     url: "/delete",
-                    data: { 'FolderValues': FolderValues, 'ImgValues': ImgValues },
+                    data: { 'FolderValues': FolderValues, 'ImgValues': ImgValues},
                     type: "POST",
                     success: function () {
                         $('.cBox').hide();
@@ -167,6 +167,8 @@
                         $('#F_load').load('@Url.Content("abc")');
                     }
                 });
+
+
             });
 
         });
@@ -212,7 +214,14 @@
         @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @class = "upLoad", enctype = "multipart/form-data" }))
         {
             <img style="position:absolute; bottom:50px; right:50px " src="~/Content/images/button.png" class="imgUpload dis" onclick="OpenFiledialog()" />
-            <input type="hidden" name="F_id" value=@f_id />
+            if (f_id == null)
+            {
+                <input type="hidden" name="F_id" value= "0" />
+            }
+            else
+            {
+                <input type="hidden" name="F_id" value=@f_id />
+            }
             <input name="files" class="mainSubmit" type="file" style="display:none" onchange="UploadFile()" multiple />
         }
 
@@ -240,7 +249,7 @@
         <div class="row">
             @foreach (var item in img)
             {
-                <div class="col-sm-6 col-md-3" style="width:160px;">
+                <div class="col-sm-6 col-md-3" style="width:160px; margin-top:15px; ">
                     <div class="cBox" style=" display:none; z-index:2; position: absolute; background-color:transparent; height:160px; width:126px; max-height:160px; max-width:126px;">
                         <span> <input type="checkbox" name="deleteImg" class="cImgValue" value="@item.HinhID" style=" width: 23px; height: 23px; margin-left: -1px; margin-top: -1px; position:absolute;" /> </span>
                     </div>
@@ -249,6 +258,7 @@
                         <img class="I-image" style="height:160px; width:126px; max-height:160px; max-width:126px; box-shadow: 0px 0px 6px rgba(0, 0, 0, 10);" src="/Photos/@item.TenHinh" />
                     </a>
                 </div>
+                
             }
         </div>
 

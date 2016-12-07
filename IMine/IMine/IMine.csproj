@@ -309,6 +309,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_FolderLoad.cshtml" />
     <Content Include="Views\Home\abc.cshtml" />
+    <Content Include="Views\Home\SlideBar.cshtml" />
+    <Content Include="Views\Home\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

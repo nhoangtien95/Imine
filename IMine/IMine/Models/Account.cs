@@ -22,5 +22,6 @@ namespace IMine.Models
         public Nullable<byte> TrangThai { get; set; }
         public string GioiTinh { get; set; }
         public string NgaySinh { get; set; }
+        public string Email { get; set; }
     }
 }

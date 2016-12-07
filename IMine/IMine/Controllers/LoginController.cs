@@ -53,7 +53,7 @@ namespace IMine.Controllers
                     {
                         if (user.Password.Equals(model.password))
                         {
-                            Session["user"] = new Account { ID = user.ID, Username = model.username, HoTen = user.HoTen };
+                            Session["user"] = new Account { ID = user.ID, Username = model.username, HoTen = user.HoTen, Phone = user.Phone, GioiTinh = user.GioiTinh, NgaySinh = user.NgaySinh, Email = user.Email };
                             return RedirectToAction("Index", "Home", Session["user"]);
                         }
                         else ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không đúng.");
@@ -85,20 +85,37 @@ namespace IMine.Controllers
         [HttpPost]
         public ActionResult Register(AccountModel model)
         {
-            if (ModelState.IsValid)
+            if (model.password != model.passwordComfirm)
             {
-                Account acc = new Account()
-                {
-                    Username = model.username,
-                    Password = model.password,
-                    HoTen = model.name,
-                    GioiTinh = model.gen,
-                    TrangThai = 1
-                };
-                db.Accounts.Add(acc);
-                db.SaveChanges();
-                return RedirectToRoute("hoan-tat-dang-ky");
+                ModelState.AddModelError("", "Mật khẩu không trùng khớp !");
             }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    return View();
+                }
+                else
+                {
+                    Account acc = new Account()
+                    {
+                        Username = model.username,
+                        Password = model.password,
+                        HoTen = model.name,
+                        Phone = model.phone,
+                        Email = model.email,
+                        NgaySinh = model.dob,
+                        GioiTinh = model.gen,
+                        TrangThai = 1
+                    };
+                    db.Accounts.Add(acc);
+                    db.SaveChanges();
+                    return RedirectToAction("Finish");
+                }
+
+            }
+
+
             return View();
         }
         #endregion
@@ -117,5 +134,11 @@ namespace IMine.Controllers
             return View();
         }
         #endregion
+
+        public RedirectToRouteResult LogOut()
+        {
+            Session["user"] = null;
+            return RedirectToAction("Index", "Login");
+        }
     }
 }
